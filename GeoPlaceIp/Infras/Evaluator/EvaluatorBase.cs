@@ -2,17 +2,16 @@
 
 namespace GeoPlaceIp.Infras.Evaluator
 {
-    abstract class EvaluatorBase
+    public abstract class EvaluatorBase
     {
         protected MemoryMappedViewAccessor mmva;
         protected DataHeader h;
-        protected GeoItem gi;
         public EvaluatorBase(MemoryMappedViewAccessor mmva, DataHeader h)
         {
             this.mmva = mmva;
             this.h = h;
         }
-        public T GetValue<T>(long address) where T : struct
+        protected T GetValue<T>(long address) where T : struct
         {
             T value;
             mmva.Read(address, out value);
@@ -31,7 +30,11 @@ namespace GeoPlaceIp.Infras.Evaluator
             return gi;
         }
 
-        abstract protected long IntToLong(int i);
-        abstract public int Evaluate();
+        protected abstract long IntToLong(int i);
+        public virtual int Evaluate<R>(int i, R value, out GeoItem gi) 
+        {
+            gi = null;
+            return 0;
+        }
     }
 }
