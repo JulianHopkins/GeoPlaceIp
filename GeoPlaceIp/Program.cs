@@ -1,5 +1,6 @@
 var builder = WebApplication.CreateBuilder(args);
 new DataLoader();
+new Repo();
 // Add services to the container.
 
 builder.Services.AddControllers();

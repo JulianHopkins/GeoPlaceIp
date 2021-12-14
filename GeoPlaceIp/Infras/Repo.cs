@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GeoPlaceIp.Infras.Models;
+using System;
 using System.IO;
 using System.IO.MemoryMappedFiles;
 using System.Runtime.InteropServices;
@@ -8,7 +9,7 @@ public class Repo
 	public Repo()
 	{
         var header = new DataHeader(DataLoader.mmva);
-
+        var ranges = new IpRanges(DataLoader.mmva, header);
 
         // ___int Size = Marshal.SizeOf(typeof(DataHeader));
         // long offset = 0x10000000; // 256 megabytes
@@ -36,7 +37,7 @@ public class Repo
     }
    // public static Dictionary<uint, string> CitiLocations;
     private static DataHeader? Header;
-    private static IpRanges[]? Ranges;
+    private static IpRange[]? Ranges;
 
 
 
