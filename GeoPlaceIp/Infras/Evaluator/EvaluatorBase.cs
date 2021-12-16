@@ -5,7 +5,7 @@ namespace GeoPlaceIp.Infras.Evaluator
     public abstract class EvaluatorBase
     {
         protected MemoryMappedViewAccessor mmva;
-        protected DataHeader h;
+        public DataHeader h;
         public EvaluatorBase(MemoryMappedViewAccessor mmva, DataHeader h)
         {
             this.mmva = mmva;
@@ -31,10 +31,6 @@ namespace GeoPlaceIp.Infras.Evaluator
         }
 
         protected abstract long IntToLong(int i);
-        public virtual int Evaluate<R>(int i, R value, out GeoItem gi) 
-        {
-            gi = null;
-            return 0;
-        }
+        public abstract int Evaluate<R>(int i, R value, out GeoItem gi);
     }
 }

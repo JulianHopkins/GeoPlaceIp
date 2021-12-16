@@ -18,9 +18,8 @@ namespace GeoPlaceIp.Infras.Evaluator
         {
             gi = null;
             var range = GetValue<IpRange>(IntToLong(i));
-            int r = range.ip_from.CompareTo(value);
-            if (r != 0) return r;
-
+            if (0 < range.ip_from.CompareTo(value)) return -1;
+            if (0 > range.ip_to.CompareTo(value)) return 1;
             gi = GetGeoItem(h.offset_locations + range.location_index);
             return 0;
         }
