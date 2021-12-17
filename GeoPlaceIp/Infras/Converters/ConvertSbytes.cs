@@ -17,9 +17,9 @@ namespace GeoPlaceIp.Infras.Converters
             { 
                 fixed (sbyte* namePtr = array)
                 {
-                    return new string(namePtr, 0, array.Length, Encoding.ASCII);
+                    return new string(namePtr);
                 }
             }
-    }
+         }
     }
 }

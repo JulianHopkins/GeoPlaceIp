@@ -17,7 +17,7 @@ namespace GeoPlaceIp.Controllers
             _logger = logger;
         }
         [HttpGet]
-        public GeoItemOut Get(string Ip)
+        public GeoItem Get(string Ip)
         {
             var OpR = repo.Call<OperationResult>(o=> o.GetGeoFromIp(Ip));
             if (!string.IsNullOrEmpty(OpR.Error))
@@ -25,7 +25,7 @@ namespace GeoPlaceIp.Controllers
                 _logger.Log(LogLevel.Error, OpR.Error);
                 return null;
             }
-            return OpR.gi.Convert();
+            return OpR.Gi;
 
         }
 

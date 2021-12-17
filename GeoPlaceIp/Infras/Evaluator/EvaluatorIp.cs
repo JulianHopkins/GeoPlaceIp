@@ -20,7 +20,7 @@ namespace GeoPlaceIp.Infras.Evaluator
             var range = GetValue<IpRange>(IntToLong(i));
             if (0 < range.ip_from.CompareTo(value)) return -1;
             if (0 > range.ip_to.CompareTo(value)) return 1;
-            gi = GetGeoItem(h.offset_locations + range.location_index);
+            gi = GetGeoItem(h.offset_locations + range.location_index*96);
             return 0;
         }
     }

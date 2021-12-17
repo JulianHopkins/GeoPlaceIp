@@ -15,7 +15,7 @@ public class DataRepo : IRepo
     private DataHeader h;
 	public DataRepo()
 	{
-        h = new DataHeader(DataLoader.mmva);
+        h = new DataHeader(DataLoader.mmf.CreateViewAccessor());
     }
     public R Call<R>(Func<IRepo, R> func) where R : new()
     {
@@ -43,19 +43,19 @@ public class DataRepo : IRepo
     }
     public OperationResult GetGeoFromCity(string City)
     {
-        EvaluatorBase Eval = new EvaluatorCity(DataLoader.mmva, h);
+        EvaluatorBase Eval = new EvaluatorCity(DataLoader.mmf.CreateViewAccessor(), h);
         var s = new Search(Eval);
         int i;
-        var gi = s.BinarySearch(City.StrToSbytes(), out i);
-        return new OperationResult { items = ((EvaluatorCity)Eval).GetAll(i, gi) };
+        var gi = s.BinarySearch(City, out i);
+        return new OperationResult { Items = ((EvaluatorCity)Eval).GetAll(i, gi) };
     }
     public OperationResult GetGeoFromIp(string Ip)
     {
-        EvaluatorBase Eval = new EvaluatorIp(DataLoader.mmva, h);
+        EvaluatorBase Eval = new EvaluatorIp(DataLoader.mmf.CreateViewAccessor(), h);
         var s = new Search(Eval);
         int i;
 
-        return new OperationResult { gi = s.BinarySearch(Ip.IpStringToUint(), out i) };
+        return new OperationResult { Gi = s.BinarySearch(Ip.IpStringToUint(), out i) };
     }
 
 

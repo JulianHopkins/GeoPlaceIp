@@ -1,5 +1,7 @@
 ﻿using System.Collections.Concurrent;
 using System.IO.MemoryMappedFiles;
+using GeoPlaceIp.Infras.Converters;
+using GeoPlaceIp.Infras.Load;
 
 namespace GeoPlaceIp.Infras.Evaluator
 {
@@ -7,60 +9,72 @@ namespace GeoPlaceIp.Infras.Evaluator
     {
         public EvaluatorCity(MemoryMappedViewAccessor mmva, DataHeader h) : base(mmva, h)
         {
-            this.mmva = mmva;
-            this.h = h;
         }
 
         protected override long IntToLong(int i)
         {
-            return 60 + (h.offset_cities) + (4 * i);
+            return h.offset_cities + (4 * i);
         }
         public override int Evaluate<Object>(int i, Object value, out GeoItem gi)
         {
-            gi = GetGeoItem(h.offset_locations + GetValue<uint>(IntToLong(i)));
-            var City = value as sbyte[];
-            if (City == null) throw new ArgumentNullException();
-            return CompareArr(City, gi.city);
-
-        }
-
-        private int CompareArr(sbyte[] arr1, sbyte[] arr2)
-        {
-            int x = (arr1.Length < arr2.Length) ? arr1.Length : arr2.Length;
-            for (int j = 0; j < x; j++)
+            gi = null;
+            var k = IntToLong(i);
+            var u = GetValue<uint>(k);
+            sbyte[] _city = new sbyte[24];
+            uint q = h.offset_locations + u + 32;
+            mmva.ReadArray(q, _city, 0, 24);
+            string MCity = _city.SbytesToStr();
+            string City = value as string;
+            if (string.IsNullOrEmpty(City)) throw new ArgumentNullException();
+            int Z = String.CompareOrdinal(City, 0, MCity, 0, City.Length);
+            if (Z == 0)
             {
-                var y = arr1[j].CompareTo(arr2[j]);
-                if (y == 0) continue;
-                return y;
+                gi = GetGeoItem(h.offset_locations + u, MCity);
             }
-            return 0;
+            return Z;
+
         }
-        public List<GeoItem> GetAll(int i, GeoItem gi)
+
+        public GeoItem[] GetAll(int i, GeoItem gi)
         {
-        ConcurrentBag<GeoItem> items = new ConcurrentBag<GeoItem>();
+            ConcurrentBag<GeoItem> items = new ConcurrentBag<GeoItem>();
+
+            Func<GeoItemLoader, int, int> cityFunc = (gild, l) =>
+            {
+                var u = GetValue<uint>(IntToLong(l));
+                sbyte[] _city = new sbyte[24];
+                uint q = h.offset_locations + u + 32;
+                mmva.ReadArray(q, _city, 0, 24);
+                string MCity = _city.SbytesToStr();
+                int c;
+                if ((c = String.CompareOrdinal(MCity, 0, gi.city, 0, MCity.Length)) == 0 )
+                {
+                    items.Add(gild.GetGeoItem(h.offset_locations + u, MCity));
+                }
+                return c;
+            };
             items.Add(gi);
             Task[] tsks = new Task[]
 {
                 Task.Run(()=> {
+                    var gild = new GeoItemLoader(mmva);
                     for(int l = i+1; l < h.records; l++)
                     {
-                       var _gi = GetGeoItem(h.offset_locations + GetValue<uint>(IntToLong(l)));
-                        if(0 == CompareArr(_gi.city, gi.city)) items.Add(_gi);
-                        else break;
+                        if(cityFunc(gild, l) != 0) break;
                     }
                 }),
                 Task.Run(() => {
+                    var gild = new GeoItemLoader(DataLoader.mmf.CreateViewAccessor());
                     for (int l = i-1; l >= 0; l--)
                     {
-                        var _gi = GetGeoItem(h.offset_locations + GetValue<uint>(IntToLong(l)));
-                        if(0 == CompareArr(_gi.city, gi.city)) items.Add(_gi);
-                        else break;
+                        if(cityFunc(gild, l) != 0) break;
                     }
                 })
 };
 
             Task.WaitAll(tsks);
-            return items.OrderBy(f=> f.city).ToList();
+            return items.OrderBy(f => f.city).ToArray();
         }
+
     }
 }

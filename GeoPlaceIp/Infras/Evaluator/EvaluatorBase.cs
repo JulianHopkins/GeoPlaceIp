@@ -1,4 +1,6 @@
 ﻿using System.IO.MemoryMappedFiles;
+using GeoPlaceIp.Infras.Converters;
+using GeoPlaceIp.Infras.Load;
 
 namespace GeoPlaceIp.Infras.Evaluator
 {
@@ -17,17 +19,10 @@ namespace GeoPlaceIp.Infras.Evaluator
             mmva.Read(address, out value);
             return value;
         }
-        protected GeoItem GetGeoItem(long address)
+        protected GeoItem GetGeoItem(long address, string city = null)
         {
-            var gi = new GeoItem();
-            mmva.ReadArray(address, gi.country, 0, 8);
-            mmva.ReadArray(address + 8, gi.region, 0, 12);
-            mmva.ReadArray(address + 20, gi.postal, 0, 12);
-            mmva.ReadArray(address + 32, gi.city, 0, 24);
-            mmva.ReadArray(address + 56, gi.organization, 0, 32);
-            gi.latitude = mmva.ReadSingle(address + 88);
-            gi.longitude = mmva.ReadSingle(address + 92);
-            return gi;
+            var G = new GeoItemLoader(mmva);
+            return G.GetGeoItem(address, city);
         }
 
         protected abstract long IntToLong(int i);

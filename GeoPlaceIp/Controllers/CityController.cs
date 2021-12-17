@@ -1,6 +1,7 @@
 ﻿using GeoPlaceIp.Infras;
 using GeoPlaceIp.Infras.Models;
 using Microsoft.AspNetCore.Mvc;
+using GeoPlaceIp.Infras.Converters;
 
 namespace GeoPlaceIp.Controllers
 {
@@ -24,7 +25,7 @@ namespace GeoPlaceIp.Controllers
                 _logger.Log(LogLevel.Error, OpR.Error);
                 return null;
             }
-            return OpR.items.ToArray();
+            return OpR.Items;
         }
     }
 

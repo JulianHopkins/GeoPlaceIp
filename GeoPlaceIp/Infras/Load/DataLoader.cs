@@ -8,12 +8,10 @@ public class DataLoader
 {
     private readonly string DataPath = ".\\Data\\geobase.dat";
     public static MemoryMappedFile mmf;
-    public static MemoryMappedViewAccessor mmva;
 
     public DataLoader()
     {
         mmf = MemoryMappedFile.CreateFromFile(DataPath, FileMode.Open, "geodata");
-        mmva = mmf.CreateViewAccessor();
     }
 
 

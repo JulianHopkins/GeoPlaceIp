@@ -1,11 +1,11 @@
 ﻿using System;
 using System.IO.MemoryMappedFiles;
-
+using GeoPlaceIp.Infras.Converters;
 public class DataHeader
 {
 
     public int version;           // версия база данных
-    public sbyte[] name = new sbyte[32];          // название/префикс для базы данных
+    public string name;      // название/префикс для базы данных
     public ulong timestamp;         // время создания базы данных
     public int records;           // общее количество записей
     public uint offset_ranges;     // смещение относительно начала файла до начала списка записей с геоинформацией
@@ -15,7 +15,9 @@ public class DataHeader
     public DataHeader(MemoryMappedViewAccessor mmva)
     {
         mmva.Read(0, out version);
-        mmva.ReadArray(4, name, 0, 32);
+        sbyte[] name_ = new sbyte[32];
+        mmva.ReadArray(4, name_, 0, 32);
+        name = name_.SbytesToStr();
         mmva.Read(36, out timestamp);
         mmva.Read(44, out records);
         mmva.Read(48, out offset_ranges);
