@@ -25,8 +25,7 @@ namespace GeoPlaceIp.Infras.Evaluator
             mmva.ReadArray(q, _city, 0, 24);
             string MCity = _city.SbytesToStr();
             string City = value as string;
-            if (string.IsNullOrEmpty(City)) throw new ArgumentNullException();
-            int Z = String.CompareOrdinal(City, 0, MCity, 0, City.Length);
+            int Z = String.CompareOrdinal(City, 4, MCity, 4, City.Length - 4);
             if (Z == 0)
             {
                 gi = GetGeoItem(h.offset_locations + u, MCity);
@@ -35,9 +34,8 @@ namespace GeoPlaceIp.Infras.Evaluator
 
         }
 
-        public GeoItem[] GetAll(int i, GeoItem gi)
+        public GeoItem[] GetAll(int i, ConcurrentBag<GeoItem> items, string City)
         {
-            ConcurrentBag<GeoItem> items = new ConcurrentBag<GeoItem>();
 
             Func<GeoItemLoader, int, int> cityFunc = (gild, l) =>
             {
@@ -46,14 +44,13 @@ namespace GeoPlaceIp.Infras.Evaluator
                 uint q = h.offset_locations + u + 32;
                 mmva.ReadArray(q, _city, 0, 24);
                 string MCity = _city.SbytesToStr();
-                int c;
-                if ((c = String.CompareOrdinal(MCity, 0, gi.city, 0, MCity.Length)) == 0 )
+                int c=2;
+                if ((c = String.CompareOrdinal(MCity, 4, City, 4, City.Length - 4)) == 0 )
                 {
                     items.Add(gild.GetGeoItem(h.offset_locations + u, MCity));
                 }
                 return c;
             };
-            items.Add(gi);
             Task[] tsks = new Task[]
 {
                 Task.Run(()=> {

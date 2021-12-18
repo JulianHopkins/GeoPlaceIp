@@ -9,13 +9,17 @@ using GeoPlaceIp.Infras.Evaluator;
 using GeoPlaceIp.Infras.Search;
 using System.Text;
 using System.Reflection;
+using System.Collections.Concurrent;
+using GeoPlaceIp.Controllers;
 
 public class DataRepo : IRepo
 {
     private DataHeader h;
-	public DataRepo()
+    private readonly ILogger<DataRepo> _logger;
+    public DataRepo(ILogger<DataRepo> logger)
 	{
         h = new DataHeader(DataLoader.mmf.CreateViewAccessor());
+        _logger = logger;
     }
     public R Call<R>(Func<IRepo, R> func) where R : new()
     {
@@ -38,6 +42,7 @@ public class DataRepo : IRepo
                 ex = ex.InnerException;
             }
             if (pi != null) pi.SetValue(answer, errbody.ToString(), null);
+            _logger.Log(LogLevel.Error, errbody.ToString());
             return answer;
         }
     }
@@ -47,7 +52,10 @@ public class DataRepo : IRepo
         var s = new Search(Eval);
         int i;
         var gi = s.BinarySearch(City, out i);
-        return new OperationResult { Items = ((EvaluatorCity)Eval).GetAll(i, gi) };
+        if (gi == null) throw new KeyNotFoundException();
+        ConcurrentBag<GeoItem> items = new ConcurrentBag<GeoItem>();
+        items.Add(gi);
+        return new OperationResult { Items = ((EvaluatorCity)Eval).GetAll(i, items, City) };
     }
     public OperationResult GetGeoFromIp(string Ip)
     {

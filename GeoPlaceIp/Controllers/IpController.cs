@@ -10,24 +10,12 @@ namespace GeoPlaceIp.Controllers
     public class IpController : Controller
     {
         private readonly IRepo repo;
-        private readonly ILogger<IpController> _logger;
-        public IpController(IRepo repo, ILogger<IpController> logger)
+        public IpController(IRepo repo)
         {
             this.repo = repo;
-            _logger = logger;
         }
         [HttpGet]
-        public GeoItem Get(string Ip)
-        {
-            var OpR = repo.Call<OperationResult>(o=> o.GetGeoFromIp(Ip));
-            if (!string.IsNullOrEmpty(OpR.Error))
-            {
-                _logger.Log(LogLevel.Error, OpR.Error);
-                return null;
-            }
-            return OpR.Gi;
-
-        }
+        public OperationResult Get(string Ip) => repo.Call<OperationResult>(o=> o.GetGeoFromIp(Ip));
 
     }
 }
