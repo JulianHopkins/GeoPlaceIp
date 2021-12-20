@@ -1,8 +1,8 @@
-﻿using ASP.NET_Default_Project.Models;
+﻿using GeoPlaceIp.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
-namespace ASP.NET_Default_Project.Controllers
+namespace GeoPlaceIp.Controllers
 {
     public class HomeController : Controller
     {

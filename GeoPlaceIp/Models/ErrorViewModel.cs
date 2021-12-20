@@ -1,4 +1,4 @@
-namespace ASP.NET_Default_Project.Models
+namespace GeoPlaceIp.Models
 {
     public class ErrorViewModel
     {
