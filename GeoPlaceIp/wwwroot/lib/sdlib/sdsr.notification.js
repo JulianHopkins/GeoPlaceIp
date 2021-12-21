@@ -13,7 +13,7 @@
     },
     show: function (message, type, delay) {
         var target = notification.get();
-        var bar = $("<div class='notibar " + type + "  alert-dismissable' style='display: none;'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button><a class='close'></a><p>" + message + "</p></div>");
+        var bar = $("<div class='notibar " + type + "  alert-dismissable fade show' role='alert'><p style='width:90%'>" + message + "</p><button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>");
         target.append(bar);
         bar.slideDown("fast");
         var time = parseInt(delay);

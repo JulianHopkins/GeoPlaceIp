@@ -2,7 +2,22 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<div class="container-fluid" >
+        <div class="row">
+            <div class="col-sm-3 col-md-2 sidebar" style="height:100%">
+                <!-- начало блока -->
+                <ul class="nav nav-sidebar charts">
+                        <li class="active"><a href="#" onclick="$.fn.chtypes(this,'allvideo', 'Всего видео просмотрено')">Всего видео просмотрено</a></li>
+                        <li><a href="#" onclick="$.fn.chtypes(this,'viewnumber', 'Количество просмотров')">Количество просмотров</a></li>
+                </ul>
+            </div>
+            <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                    <img src="" class="img-responsive" alt="Всего видео просмотрено">
+                <h2 class="sub-header">Видео</h2>
+                <div class="table-responsive videofile">
+
+                </div>
+            </div>
+        </div>
+    </div>
+

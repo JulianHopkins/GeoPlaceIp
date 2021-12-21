@@ -11,7 +11,7 @@ public class DataLoader
 
     public DataLoader()
     {
-        mmf = MemoryMappedFile.CreateFromFile(DataPath, FileMode.Open, "geodata");
+        mmf = MemoryMappedFile.CreateFromFile(DataPath, FileMode.Open, "geodata", 0, MemoryMappedFileAccess.Read);
     }
 
 
