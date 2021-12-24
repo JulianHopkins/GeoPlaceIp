@@ -22,7 +22,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="wwwroot\js\" />
     <Folder Include="wwwroot\lib\sdlib\" />
+    <Folder Include="wwwroot\ts\" />
   </ItemGroup>
 
 </Project>

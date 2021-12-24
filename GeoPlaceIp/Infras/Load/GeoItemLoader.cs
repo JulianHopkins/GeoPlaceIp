@@ -45,8 +45,8 @@ namespace GeoPlaceIp.Infras.Load
             gi.postal = _postal.SbytesToStr();
 
             gi.organization = _organization.SbytesToStr();
-            gi.latitude = mmva.ReadSingle(address + 88).ToString();
-            gi.longitude = mmva.ReadSingle(address + 92).ToString();
+            gi.latitude = mmva.ReadSingle(address + 88);
+            gi.longitude = mmva.ReadSingle(address + 92);
             return gi;
         }
 

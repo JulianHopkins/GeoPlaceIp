@@ -2,22 +2,37 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="container-fluid" >
-        <div class="row">
-            <div class="col-sm-3 col-md-2 sidebar" style="height:100%">
-                <!-- начало блока -->
-                <ul class="nav nav-sidebar charts">
-                        <li class="active"><a href="#" onclick="$.fn.chtypes(this,'allvideo', 'Всего видео просмотрено')">Всего видео просмотрено</a></li>
-                        <li><a href="#" onclick="$.fn.chtypes(this,'viewnumber', 'Количество просмотров')">Количество просмотров</a></li>
-                </ul>
-            </div>
-            <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-                    <img src="" class="img-responsive" alt="Всего видео просмотрено">
-                <h2 class="sub-header">Видео</h2>
-                <div class="table-responsive videofile">
 
-                </div>
-            </div>
-        </div>
-    </div>
+<div class="mb-3">
+  <label for="ipaddessText" class="form-label">IP address</label>
+  <input type="text" class="form-control  is-invalid" id="ipaddessText" placeholder="123.234.123.234">
+  <div id="ipaddessTextFeedback" class="invalid-feedback">
+        Type ip-address, please.
+  </div>
+  <button type="button" class="btn btn-secondary searchbutton">Search</button>
+</div>
+ 
+@section Scripts {
+    <script src="~/lib/systemjs/system.min.js">
+        System.config({
+    packages: {
+        'app': {
+            defaultExtension: 'js',
+            main: "./lib/ts/GetItems"
+        },
+    transpiler: 'typescript',
+    typescriptOptions: { emitDecoratorMetadata: true },
+    }
+});
+</script>
+
+  
+    <script>
+    let getitems;
+    System.import('app').
+    then(app=>{getitems = app;});
+    alert(new getitems().getItems().country);
+</script>
+}
+
 

@@ -23,6 +23,15 @@
     {
       "library": "respond.js@1.4.2",
       "destination": "wwwroot/lib/respond.js/"
+    },
+    {
+      "library": "systemjs@6.11.0",
+      "destination": "wwwroot/lib/systemjs/"
+    },
+    {
+      "provider": "unpkg",
+      "library": "es6-promise@4.2.8",
+      "destination": "wwwroot/lib/es6-promise/"
     }
   ]
 }

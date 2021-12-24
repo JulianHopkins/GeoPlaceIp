@@ -7,7 +7,7 @@ public class GeoItem
 	public string postal { get; set; }        // почтовый индекс (случайная строка с префиксом "pos_")
 	public string city { get; set; }          // название города (случайная строка с префиксом "cit_")
 	public string organization { get; set; }  // название организации (случайная строка с префиксом "org_")
-	public string latitude { get; set; }         // широта
-	public string longitude { get; set; }         // долгота
+	public float latitude { get; set; }         // широта
+	public float longitude { get; set; }         // долгота
 
 }

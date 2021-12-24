@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+
+    "experimentalDecorators": true,
+    "module": "system",
+    "noImplicitAny": true,
+    "outDir": "./js",
+    "rootDir": "./ts",
+    "target": "ES6",
+    "removeComments": true,
+    "sourceMap": true,
+    "outFile": "./js/main.js"
+  }
+}

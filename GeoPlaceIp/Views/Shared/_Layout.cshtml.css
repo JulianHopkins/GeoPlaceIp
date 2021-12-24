@@ -46,3 +46,25 @@ button.accept-policy {
   white-space: nowrap;
   line-height: 60px;
 }
+.leftmenu {
+    position: absolute;
+    bottom: 80px;
+    top: 40px;
+}
+.menubutton {
+    background-color: lightgrey;
+    border-color: black;
+    width: 100%;
+    height: 100px;
+    margin-top: 30px;
+}
+.menubuttonsec {
+    margin-top: 20px;
+}
+
+.mainblock {
+    margin-top: 50px;
+}
+.mainblock1 {
+    margin-top: 48px;
+}
