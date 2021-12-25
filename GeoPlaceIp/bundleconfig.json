@@ -1,0 +1,10 @@
+[
+  {
+    "outputFileName": "wwwroot/js/main.js",
+    "inputFiles": [
+      "wwwroot/js/GeoItem.js",
+      "wwwroot/js/GetItems.js",
+      "wwwroot/js/OperationResult.js"
+    ]
+  }
+]

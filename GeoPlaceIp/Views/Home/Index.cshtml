@@ -13,26 +13,13 @@
 </div>
  
 @section Scripts {
-    <script src="~/lib/systemjs/system.min.js">
-        System.config({
-    packages: {
-        'app': {
-            defaultExtension: 'js',
-            main: "./lib/ts/GetItems"
-        },
-    transpiler: 'typescript',
-    typescriptOptions: { emitDecoratorMetadata: true },
-    }
-});
-</script>
-
-  
+    <script src="~/js/main.js"></script>
     <script>
-    let getitems;
-    System.import('app').
-    then(app=>{getitems = app;});
-    alert(new getitems().getItems().country);
-</script>
+        //https://localhost:7103/ip/location
+            //ip=123.234.123.234
+            let itms = new GetItems();
+            itms.setResult("/city/locations?city=cit_Eve Amis");
+    </script>
 }
 
 

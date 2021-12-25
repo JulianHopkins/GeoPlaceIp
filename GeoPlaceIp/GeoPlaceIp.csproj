@@ -18,13 +18,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="bundleconfig.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />
+    <None Include="bundleconfig.json" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="wwwroot\js\" />
     <Folder Include="wwwroot\lib\sdlib\" />
-    <Folder Include="wwwroot\ts\" />
   </ItemGroup>
 
 </Project>

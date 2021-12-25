@@ -1,15 +1,3 @@
-class GeoItem {
-    constructor(country, region, postal, city, organization, latitude, longitude) {
-        this.country = country;
-        this.region = region;
-        this.postal = postal;
-        this.city = city;
-        this.organization = organization;
-        this.latitude = latitude;
-        this.longitude = longitude;
-    }
-}
-
 class GetItems {
     setResult(url) {
         $(document).ready(() => {
@@ -51,13 +39,5 @@ class GetItems {
 <dt class="col-sm-3">Latitude</dt><dd class="col-sm-9">${gi.latitude.toString()}</dd>
 <dt class="col-sm-3">Longitute</dt><dd class="col-sm-9">${gi.longitude.toString()}</dd>
 </dl></td></tr>`;
-    }
-}
-
-class OperationResult {
-    constructor(gi, items, error) {
-        this.gi = gi;
-        this.items = items;
-        this.error = error;
     }
 }
