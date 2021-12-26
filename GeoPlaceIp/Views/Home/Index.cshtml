@@ -3,14 +3,12 @@
 }
 
 
-<div class="mb-3">
-  <label for="ipaddessText" class="form-label">IP address</label>
-  <input type="text" class="form-control  is-invalid" id="ipaddessText" placeholder="123.234.123.234">
-  <div id="ipaddessTextFeedback" class="invalid-feedback">
-        Type ip-address, please.
-  </div>
+
+  <label for="ipaddessText" class="form-label searchlabel">IP address</label>
+  <input type="text" class="form-control searchinput" id="ipaddessText">
+  <div id="ipaddessTextFeedback" class="invalid-feedback validationmess"></div>
   <button type="button" class="btn btn-secondary searchbutton">Search</button>
-</div>
+
  
 @section Scripts {
     <script src="~/js/main.js"></script>

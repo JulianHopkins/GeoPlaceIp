@@ -52,7 +52,7 @@ public class DataRepo : IRepo
         var s = new Search(Eval);
         int i;
         var gi = s.BinarySearch(City, out i);
-        if (gi == null) throw new KeyNotFoundException();
+        if (gi == null) throw new KeyNotFoundException("No information was found for the name provided.");
         ConcurrentBag<GeoItem> items = new ConcurrentBag<GeoItem>();
         items.Add(gi);
         return new OperationResult { Items = ((EvaluatorCity)Eval).GetAll(i, items, City) };
@@ -62,8 +62,9 @@ public class DataRepo : IRepo
         EvaluatorBase Eval = new EvaluatorIp(DataLoader.mmf.CreateViewAccessor(), h);
         var s = new Search(Eval);
         int i;
-
-        return new OperationResult { Gi = s.BinarySearch(Ip.IpStringToUint(), out i) };
+        var gi = s.BinarySearch(Ip.IpStringToUint(), out i);
+        if (gi == null) throw new KeyNotFoundException("No information was found for the IP provided.");
+        return new OperationResult { Gi = gi };
     }
 
 
