@@ -1,6 +1,16 @@
+class Exc {
+    constructor(extype, message) {
+        this.extype = extype;
+        this.message = message;
+    }
+}
 class GetItems {
     setResult(url) {
         $(document).ready(() => {
+            let mnb = $(".mainblock1");
+            let restab = $(".resultTab");
+            mnb.hide();
+            restab.html("");
             $.get(url, (data) => {
                 let opr = data;
                 if (opr == null || opr === undefined) {
@@ -8,12 +18,17 @@ class GetItems {
                     return;
                 }
                 if (opr.error != null) {
-                    notification.error(data.Error, 7000);
+                    if (opr.error.extype.indexOf('KeyNotFoundException') != -1) {
+                        notification.info(opr.error.message, 7000);
+                    }
+                    else {
+                        notification.error(opr.error.message, 7000);
+                    }
                     return;
                 }
                 if (opr.gi != null) {
-                    $(".mainblock1").show();
-                    $(".resultTab").html(this.getGiHTML(opr.gi));
+                    mnb.show();
+                    restab.html(this.getGiHTML(opr.gi));
                     return;
                 }
                 if (opr.items != null) {
@@ -21,8 +36,8 @@ class GetItems {
                     for (let y of opr.items) {
                         tb = `${tb}${this.getGiHTML(y)}`;
                     }
-                    $(".mainblock1").show();
-                    $(".resultTab").html(tb);
+                    mnb.show();
+                    restab.html(tb);
                     return;
                 }
                 console.log(data);

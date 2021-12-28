@@ -11,6 +11,8 @@ using System.Text;
 using System.Reflection;
 using System.Collections.Concurrent;
 using GeoPlaceIp.Controllers;
+using System.Globalization;
+using System.Threading;
 
 public class DataRepo : IRepo
 {
@@ -29,19 +31,22 @@ public class DataRepo : IRepo
             return func(this);
 
         }
-        catch (Exception ex)
+        catch (Exception ex) //Обработка ошибок в одном месте
         {
             R answer = new R();
             PropertyInfo pi = typeof(R).GetProperties().FirstOrDefault(s => s.Name == "Error");
             StringBuilder errbody = new StringBuilder(3000);
+            LastExc le = null;
             var i = 0;
+            
             while (ex != null)
             {
 
                 errbody.AppendLine(string.Format("\r\n{0} type: {1}, Message: {2}", ++i > 1 ? "Inner exception" : "Exception", ex.GetType(), ex.Message));
-                ex = ex.InnerException;
+                le = new LastExc { extype = ex.GetType().ToString(), message = ex.Message };
+                ex = ex?.InnerException;
             }
-            if (pi != null) pi.SetValue(answer, errbody.ToString(), null);
+            if (pi != null) pi.SetValue(answer, le, null);
             _logger.Log(LogLevel.Error, errbody.ToString());
             return answer;
         }
