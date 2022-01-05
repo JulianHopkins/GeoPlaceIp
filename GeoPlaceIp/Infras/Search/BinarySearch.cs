@@ -15,7 +15,7 @@ namespace GeoPlaceIp.Infras.Search
         public GeoItem BinarySearch<T>(T value, out int middle)
         {
             int left = 0;
-            int right = Evaluator.h.records;
+            int right = Evaluator.h.records - 1;
             //пока не сошлись границы массива
             while (left <= right)
             {
