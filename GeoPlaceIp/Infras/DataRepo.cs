@@ -13,6 +13,7 @@ using System.Collections.Concurrent;
 using GeoPlaceIp.Controllers;
 using System.Globalization;
 using System.Threading;
+using System.Diagnostics;
 
 public class DataRepo : IRepo
 {
@@ -67,7 +68,11 @@ public class DataRepo : IRepo
         EvaluatorBase Eval = new EvaluatorIp(DataLoader.mmf.CreateViewAccessor(), h);
         var s = new Search(Eval);
         int i;
+        var w = new Stopwatch();
+        w.Start();
         var gi = s.BinarySearch(Ip.IpStringToUint(), out i);
+        w.Stop();
+        Console.WriteLine(w.Elapsed);
         if (gi == null) throw new KeyNotFoundException("No information was found for the IP provided.");
         return new OperationResult { Gi = gi };
     }
